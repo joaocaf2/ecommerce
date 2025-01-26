@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.8</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
-	<groupId>com.comercio</groupId>
-	<artifactId>comercio</artifactId>
+	<groupId>com.ecommerce</groupId>
+	<artifactId>ecommerce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>comercio</name>
-	<description>Comércio Eletrônico</description>
+	<name>ecommerce</name>
+	<description>E-commerce</description>
 	<url/>
 	<licenses>
 		<license/>
