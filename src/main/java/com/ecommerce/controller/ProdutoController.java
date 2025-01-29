@@ -9,6 +9,6 @@ public class ProdutoController {
 
     @RequestMapping(value = "/cadastrar")
     public String formulario() {
-        return "produtos/cadastrar-produto";
+        return "produtos/formulario-produto";
     }
 }

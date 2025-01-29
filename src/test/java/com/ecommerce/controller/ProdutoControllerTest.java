@@ -19,10 +19,10 @@ public class ProdutoControllerTest {
 
     @Test
     @DisplayName("Página de formulário de cadastro deve ser chamada com sucesso")
-    public void deveChamarFormularioDeCadastroProdutoCorretamete() throws Exception {
+    public void deveChamarFormularioDeCadastroProdutoComSucesso() throws Exception {
         mockMvc
                 .perform(get("/produtos/cadastrar"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("produtos/cadastrar-produto"));
+                .andExpect(view().name("produtos/formulario-produto"));
     }
 }
