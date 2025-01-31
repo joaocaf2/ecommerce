@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Geração automática do ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private final String nome;
     private final String descricao;
