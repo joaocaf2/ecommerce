@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +38,7 @@
 </header>
 <div class="content">
     <h2>Produtos em Destaque</h2>
+    <a th:href="@{/produtos/formulario}">Cadastrar produto</a>
     <p>Confira nossas ofertas incríveis e produtos de qualidade!</p>
 </div>
 <footer>
