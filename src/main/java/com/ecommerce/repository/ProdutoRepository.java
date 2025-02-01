@@ -16,4 +16,14 @@ public class ProdutoRepository {
     public void salvar(Produto produto) {
         entityManager.persist(produto);
     }
+
+    public Produto buscarPorid(Long id) {
+        var produto = entityManager.find(Produto.class, id);
+
+        if (produto == null) {
+            throw new RuntimeException(String.format("Produto com o código %d não encontrado no banco de dados", id));
+        }
+
+        return produto;
+    }
 }

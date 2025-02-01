@@ -38,8 +38,8 @@ public class ProdutoControllerTest {
     }
 
     @Test
-    @DisplayName("Deve cadastrar o produto com sucesso ao submeter o formulário")
-    public void deveCadastrarOProdutoComSucessoAoSubmeterOFormulario() throws Exception {
+    @DisplayName("Deve chamar corretamente a url de cadastro de produtos")
+    public void deveChamarCorretamenteAUrlDeCadastroDeProdutos() throws Exception {
         mockMvc.perform(post("/produtos/cadastrar")
                         .param("nome", "Produto Teste")
                         .param("descricao", "Descrição do produto")

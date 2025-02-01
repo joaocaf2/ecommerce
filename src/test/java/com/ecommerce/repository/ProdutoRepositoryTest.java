@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Transactional
@@ -31,6 +32,11 @@ public class ProdutoRepositoryTest {
 
         assertEquals("Produto: 1 Computador Descrição: Um PC da Dell Preço: 1500.00",
                 produto.toString());
+
+        var produtoBuscadoNobanco = produtoRepository.buscarPorid(Long.valueOf("1"));
+
+        assertNotNull(produtoBuscadoNobanco);
+        assertEquals(Long.valueOf("1"), produtoBuscadoNobanco.getId());
     }
 
 }
