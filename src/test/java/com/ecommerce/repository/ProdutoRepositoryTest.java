@@ -29,8 +29,6 @@ public class ProdutoRepositoryTest {
 
         produtoRepository.salvar(produto);
 
-        System.out.println(produto);
-
         assertEquals("Produto: 1 Computador Descrição: Um PC da Dell Preço: 1500.00",
                 produto.toString());
     }
