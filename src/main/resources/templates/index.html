@@ -11,16 +11,19 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #007bff;
             color: white;
             padding: 10px;
             text-align: center;
         }
+
         .content {
             padding: 20px;
             text-align: center;
         }
+
         footer {
             background-color: #007bff;
             color: white;
@@ -33,14 +36,15 @@
     </style>
 </head>
 <body>
-<header>
-    <h1>Bem-vindo ao Comércio Eletrônico</h1>
-</header>
+
+<div th:replace="fragments/cabecalho :: cabecalho"></div>
+
 <div class="content">
     <h2>Produtos em Destaque</h2>
     <a th:href="@{/produtos/formulario}">Cadastrar produto</a>
     <p>Confira nossas ofertas incríveis e produtos de qualidade!</p>
 </div>
-<footer>
-    <p>&copy; 2025 Comércio Eletrônico. Todos os direitos reservados.</p>
-</footer>
+
+<div th:replace="fragments/rodape :: rodape"></div>
+
+</body>
