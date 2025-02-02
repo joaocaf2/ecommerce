@@ -59,15 +59,24 @@
     <h2>Cadastro de Produto</h2>
 
     <div class="form-container">
-        <form th:action="@{/produtos/cadastrar}" method="POST">
-            <label for="nome">Nome do produto:</label>
-            <input type="text" id="nome" name="nome" required>
+        <form th:action="@{/produtos/cadastrar}" th:object="${produto}" method="POST">
+            <div>
+                <label for="nome">Nome do produto:</label>
+                <input type="text" id="nome" th:field="*{nome}" required>
+                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            </div>
 
-            <label for="descricao">Descrição do produto:</label>
-            <input type="text" id="descricao" name="descricao" required>
+            <div>
+                <label for="descricao">Descrição do produto:</label>
+                <input type="text" id="descricao" th:field="*{descricao}" required>
+                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{descricao}"></div>
+            </div>
 
-            <label for="preco">Preço do produto:</label>
-            <input type="number" id="preco" name="preco" required step="0.01">
+            <div>
+                <label for="preco">Preço do produto:</label>
+                <input type="number" id="preco" th:field="*{preco}" required step="0.01">
+                <div th:if="${#fields.hasErrors('nome')}" th:errors="*{preco}"></div>
+            </div>
 
             <input type="submit" value="Cadastrar Produto">
         </form>
