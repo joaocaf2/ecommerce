@@ -49,7 +49,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return String.format("Produto: %d %s Descrição: %s Preço: %.2f", this.id, getNome(), getDescricao(), getPreco());
+        return String.format("Produto: %d %s Descrição: %s Preço: %.2f", getId(), getNome(), getDescricao(), getPreco());
     }
 
 }
