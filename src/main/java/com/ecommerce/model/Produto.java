@@ -50,7 +50,9 @@ public class Produto {
 
     @Override
     public String toString() {
-        return String.format("Produto: %d %s Descrição: %s Preço: %.2f", getId(), getNome(), getDescricao(), getPreco());
+        String mensagemId = (getId() == null) ? "ID não informado" : "ID: " + getId();
+
+        return String.format("Produto: %s | Nome: %s | Descrição: %s | Preço: %.2f", mensagemId, getNome(), getDescricao(), getPreco());
     }
 
 }

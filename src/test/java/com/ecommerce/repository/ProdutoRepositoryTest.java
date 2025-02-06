@@ -32,7 +32,7 @@ public class ProdutoRepositoryTest {
 
         var produtoBuscadoNobanco = produtoRepository.buscarPorid(Long.valueOf("1"));
 
-        assertEquals("Produto: 1 Computador Descrição: Um PC da Dell Preço: 1500.00", produto.toString());
+        assertEquals("Produto: ID: 1 | Nome: Computador | Descrição: Um PC da Dell | Preço: 1500.00", produto.toString());
         assertNotNull(produtoBuscadoNobanco);
         assertEquals(Long.valueOf("1"), produtoBuscadoNobanco.getId());
     }
