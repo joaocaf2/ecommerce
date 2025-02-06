@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +49,31 @@ public class ProdutoControllerTest {
     }
 
     @Test
-    @DisplayName("Deve ocasionar erro caso viole validações do produto")
-    public void deveOcasionarErroCasoVioleValidacoesDoProduto() throws Exception {
+    @DisplayName("Deve ocasionar erro caso não seja informado o nome do produto")
+    public void deveOcasionarErroCasoNaoSejaInformadoONomeDoProduto() throws Exception {
         mockMvc.perform(post("/produtos/cadastrar")
                         .param("nome", "")
                         .param("descricao", "Descrição do produto")
                         .param("preco", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("produtos/formulario-produto"))
-                .andExpect(model().attributeHasFieldErrors("produto", "nome"))
-                .andExpect(model().attributeHasFieldErrors("produto", "preco"));
+                .andExpect(model().attributeHasFieldErrorCode("produto", "nome", "NotEmpty"));
+    }
+
+    @ParameterizedTest(name = "Se for informado o valor {0} para o atributo preço o error code deve ser: {1}")
+    @CsvSource(delimiter = ';', value = {
+            "0;Min",
+            "'';NotNull",
+    })
+    public void deveValidarCorretamenteOAtributoPreco(String valor, String errorCode) throws Exception {
+        mockMvc.perform(post("/produtos/cadastrar")
+                        .param("nome", "Teste")
+                        .param("descricao", "Descrição do produto")
+                        .param("preco", valor))
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andExpect(view().name("produtos/formulario-produto"))
+                .andExpect(model().attributeHasFieldErrorCode("produto", "preco", errorCode));
     }
 
 }

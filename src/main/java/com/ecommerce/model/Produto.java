@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,12 +18,12 @@ public class Produto {
     private Long id;
 
     @NotEmpty(message = "Nome não pode ser vazio")
-    @NotNull(message = "Nome não pode ser nulo")
     private final String nome;
 
     private final String descricao;
 
     @NotNull(message = "Preço não pode ser nulo")
+    @Min(value = 1, message = "Preço não pode ser zero ou negativo")
     private final BigDecimal preco;
 
     public Produto(String nome, String descricao, BigDecimal preco) {
