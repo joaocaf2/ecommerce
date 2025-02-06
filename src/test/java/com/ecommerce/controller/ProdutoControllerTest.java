@@ -32,9 +32,7 @@ public class ProdutoControllerTest {
     @ValueSource(strings = ("/produtos/formulario"))
     @DisplayName("Deve retornar status ok ao acessar as urls do controller")
     public void deveRetornarStatusOkAoAcessarAsUrlsDoController(String url) throws Exception {
-        mockMvc
-                .perform(get(url))
-                .andExpect(status().isOk());
+        mockMvc.perform(get(url)).andExpect(status().isOk());
     }
 
     @Test
@@ -61,10 +59,7 @@ public class ProdutoControllerTest {
     }
 
     @ParameterizedTest(name = "Se for informado o valor {0} para o atributo preço o error code deve ser: {1}")
-    @CsvSource(delimiter = ';', value = {
-            "0;Min",
-            "'';NotNull",
-    })
+    @CsvSource(delimiter = ';', value = {"0;Min", "'';NotNull"})
     public void deveValidarCorretamenteOAtributoPreco(String valor, String errorCode) throws Exception {
         mockMvc.perform(post("/produtos/cadastrar")
                         .param("nome", "Teste")
