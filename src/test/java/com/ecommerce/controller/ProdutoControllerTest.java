@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProdutoController.class)
 @ExtendWith(MockitoExtension.class)
@@ -46,6 +45,19 @@ public class ProdutoControllerTest {
                         .param("preco", "100.00"))
                 .andExpect(redirectedUrl("/"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+    }
+
+    @Test
+    @DisplayName("Deve ocasionar erro caso viole validações do produto")
+    public void deveOcasionarErroCasoVioleValidacoesDoProduto() throws Exception {
+        mockMvc.perform(post("/produtos/cadastrar")
+                        .param("nome", "")
+                        .param("descricao", "Descrição do produto")
+                        .param("preco", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("produtos/formulario-produto"))
+                .andExpect(model().attributeHasFieldErrors("produto", "nome"))
+                .andExpect(model().attributeHasFieldErrors("produto", "preco"));
     }
 
 }
