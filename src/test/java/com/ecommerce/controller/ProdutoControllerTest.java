@@ -58,6 +58,20 @@ public class ProdutoControllerTest {
                 .andExpect(model().attributeHasFieldErrorCode("produto", "nome", "NotEmpty"));
     }
 
+    @Test
+    @DisplayName("Deve ocasionar erro caso seja informado uma descrição maior que o limite de caracteres para a descrição")
+    public void deveOcasionarErroCasoSejaInformadoDescricaoMaiorQueOLimite() throws Exception {
+        mockMvc.perform(post("/produtos/cadastrar")
+                        .param("nome", "Teste")
+                        .param("descricao",
+                                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        )
+                        .param("preco", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("produtos/formulario-produto"))
+                .andExpect(model().attributeHasFieldErrorCode("produto", "descricao", "Size"));
+    }
+
     @ParameterizedTest(name = "Se for informado o valor {0} para o atributo preço o error code deve ser: {1}")
     @CsvSource(delimiter = ';', value = {"0;Min", "'';NotNull"})
     public void deveValidarCorretamenteOAtributoPreco(String valor, String errorCode) throws Exception {

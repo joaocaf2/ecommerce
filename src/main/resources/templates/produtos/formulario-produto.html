@@ -74,6 +74,7 @@
             <div>
                 <label for="descricao">Descrição do produto:</label>
                 <input type="text" id="descricao" th:field="*{descricao}" required>
+                <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
             </div>
 
             <div>

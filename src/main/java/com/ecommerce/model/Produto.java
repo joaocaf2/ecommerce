@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -20,6 +21,7 @@ public class Produto {
     @NotEmpty(message = "Nome não pode ser vazio")
     private final String nome;
 
+    @Size(max = 100, message = "A descrição deve conter no máximo 100 caracteres")
     private final String descricao;
 
     @NotNull(message = "Preço não pode ser nulo")
