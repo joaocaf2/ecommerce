@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class ProdutoRepositoryTest {
+public class ProdutoRepositoryIntegrationTest {
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -30,11 +30,9 @@ public class ProdutoRepositoryTest {
 
         produtoRepository.salvar(produto);
 
-        assertEquals("Produto: 1 Computador Descrição: Um PC da Dell Preço: 1500.00",
-                produto.toString());
-
         var produtoBuscadoNobanco = produtoRepository.buscarPorid(Long.valueOf("1"));
 
+        assertEquals("Produto: ID: 1 | Nome: Computador | Descrição: Um PC da Dell | Preço: 1500.00", produto.toString());
         assertNotNull(produtoBuscadoNobanco);
         assertEquals(Long.valueOf("1"), produtoBuscadoNobanco.getId());
     }
