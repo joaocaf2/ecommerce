@@ -19,18 +19,34 @@ public class Produto {
     private Long id;
 
     @NotEmpty(message = "Nome não pode ser vazio")
-    private final String nome;
+    private String nome;
 
     @Size(max = 100, message = "A descrição deve conter no máximo 100 caracteres")
-    private final String descricao;
+    private String descricao;
 
     @NotNull(message = "Preço não pode ser nulo")
     @Min(value = 1, message = "Preço não pode ser zero ou negativo")
-    private final BigDecimal preco;
+    private BigDecimal preco;
 
     public Produto(String nome, String descricao, BigDecimal preco) {
         this.nome = nome;
         this.descricao = descricao;
+        this.preco = preco;
+    }
+
+    public Produto() {
+
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

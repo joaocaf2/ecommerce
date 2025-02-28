@@ -14,6 +14,16 @@
     <h2>Produtos em Destaque</h2>
     <a th:href="@{/produtos/formulario}">Cadastrar produto</a>
     <p>Confira nossas ofertas incríveis e produtos de qualidade!</p>
+
+    <div>
+        <ul>
+            <li th:each="produto : ${produtos}">
+                <h3 th:text="${produto.nome}">Nome do Produto</h3>
+                <p th:text="${produto.preco}">Preço do Produto</p>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 <div th:replace="fragments/rodape :: rodape"></div>
