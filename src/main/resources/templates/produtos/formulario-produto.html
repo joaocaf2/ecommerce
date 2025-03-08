@@ -78,6 +78,12 @@
             </div>
 
             <div>
+                <label for="urlImagem">Url imagem do produto:</label>
+                <input type="text" id="urlImagem" th:field="*{urlImagem}" required>
+                <div th:if="${#fields.hasErrors('urlImagem')}" th:errors="*{urlImagem}"></div>
+            </div>
+
+            <div>
                 <label for="preco">Preço do produto:</label>
                 <input type="number" id="preco" th:field="*{preco}" required step="0.01">
                 <div th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></div>

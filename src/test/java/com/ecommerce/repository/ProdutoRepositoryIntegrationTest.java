@@ -25,7 +25,7 @@ public class ProdutoRepositoryIntegrationTest {
     public void deveDefinirOsAtributosDoProdutoCorretamente() {
         var produto = new Produto("Computador",
                 "Um PC da Dell",
-                new BigDecimal("1500.0"));
+                new BigDecimal("1500.0"),"");
 
         produtoRepository.salvar(produto);
 
@@ -41,19 +41,19 @@ public class ProdutoRepositoryIntegrationTest {
     public void deveBuscarTodosOsProdutosCadastrados() {
         var bola = new Produto("Bola",
                 "Bola de basquete",
-                new BigDecimal("350.0"));
+                new BigDecimal("350.0"),"");
 
         var patinete = new Produto("Patinete",
                 "Bola de basquete",
-                new BigDecimal("900.0"));
+                new BigDecimal("900.0"),"");
 
         var bicicleta = new Produto("Bicicleta",
                 "Bola de basquete",
-                new BigDecimal("1500.0"));
+                new BigDecimal("1500.0"),"");
 
         var frigideira = new Produto("Frigideira",
                 "Bola de basquete",
-                new BigDecimal("75.0"));
+                new BigDecimal("75.0"),"");
 
         produtoRepository.salvar(bola);
         produtoRepository.salvar(patinete);

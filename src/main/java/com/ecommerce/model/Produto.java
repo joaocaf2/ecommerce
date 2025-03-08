@@ -1,9 +1,6 @@
 package com.ecommerce.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +10,9 @@ import java.math.BigDecimal;
 
 @Entity
 public class Produto {
+
+    @Transient
+    private final int QTDE_MAX_CARACTERES_URL_IMAGEM = 2048;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +24,19 @@ public class Produto {
     @Size(max = 100, message = "A descrição deve conter no máximo 100 caracteres")
     private String descricao;
 
+    @Size(max = QTDE_MAX_CARACTERES_URL_IMAGEM, message = "A url da imagem do produto deve conter no máximo" + QTDE_MAX_CARACTERES_URL_IMAGEM + " caracteres")
+    @Column(columnDefinition = "LONGTEXT")
+    private String urlImagem;
+
     @NotNull(message = "Preço não pode ser nulo")
     @Min(value = 1, message = "Preço não pode ser zero ou negativo")
     private BigDecimal preco;
 
-    public Produto(String nome, String descricao, BigDecimal preco) {
+    public Produto(String nome, String descricao, BigDecimal preco, String urlImagem) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.urlImagem = urlImagem;
     }
 
     public Produto() {
@@ -44,6 +49,10 @@ public class Produto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 
     public void setPreco(BigDecimal preco) {
@@ -60,6 +69,10 @@ public class Produto {
 
     public String getDescricao() {
         return this.descricao;
+    }
+
+    public String getUrlImagem() {
+        return this.urlImagem;
     }
 
     public BigDecimal getPreco() {
