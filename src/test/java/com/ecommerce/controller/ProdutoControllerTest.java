@@ -61,11 +61,11 @@ public class ProdutoControllerTest {
     @Test
     @DisplayName("Deve ocasionar erro caso seja informado uma descrição maior que o limite de caracteres para a descrição")
     public void deveOcasionarErroCasoSejaInformadoDescricaoMaiorQueOLimite() throws Exception {
+        var descricaoQueExcedeOLimite = "A".repeat(200);
+
         mockMvc.perform(post("/produtos/cadastrar")
                         .param("nome", "Teste")
-                        .param("descricao",
-                                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                        )
+                        .param("descricao", descricaoQueExcedeOLimite)
                         .param("preco", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("produtos/formulario-produto"))
@@ -86,20 +86,41 @@ public class ProdutoControllerTest {
     }
 
     @Test
-    @DisplayName("Deve ocasionar erro caso a url da imagem do produto ultrapasse o máximo de caracteres permitidos")
-    public void deveOcasionarErroCasoAUrlDaImagemDoProdutoUltrapasseOLimite() throws Exception {
-        var urlImagemInvalida = "A".repeat(3000);
+    @DisplayName("Deve ocasionar erro caso a url da imagem comece com caracteres inválidos")
+    public void deveOcasionarErroCasoAUrlDaImagemComeceComCaracteresInvalidos() throws Exception {
+        mockMvc.perform(post("/produtos/cadastrar")
+                        .param("nome", "teste")
+                        .param("descricao", "Descrição do produto")
+                        .param("descricao", "Descrição do produto")
+                        .param("urlImagem", "LALALALALA"))
+                .andExpect(status().isOk())
+                .andExpect(view()
+                        .name("produtos/formulario-produto"))
+                .andExpect(model()
+                        .attributeHasFieldErrorCode("produto", "urlImagem", "Pattern"));
+    }
+
+    @Test
+    @DisplayName("Deve ocasionar erro caso a url da imagem ultrapasse a quantidade limite de caracteres")
+    public void deveOcasionarErroCasoAUrlDaImagemUltrapasseOLimiteDeCaracteres() throws Exception {
+        var urlComTamanhoExcedente = criarUrlComTamanhoExcedente();
 
         mockMvc.perform(post("/produtos/cadastrar")
                         .param("nome", "teste")
                         .param("descricao", "Descrição do produto")
                         .param("descricao", "Descrição do produto")
-                        .param("urlImagem", urlImagemInvalida))
+                        .param("urlImagem", urlComTamanhoExcedente))
                 .andExpect(status().isOk())
                 .andExpect(view()
                         .name("produtos/formulario-produto"))
                 .andExpect(model()
                         .attributeHasFieldErrorCode("produto", "urlImagem", "Size"));
+    }
+
+    private String criarUrlComTamanhoExcedente() {
+        var urlInicialValida = "https://";
+
+        return urlInicialValida += "A".repeat(3000);
     }
 
 }
