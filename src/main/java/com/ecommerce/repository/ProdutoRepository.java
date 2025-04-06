@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ProdutoRepository {
 
@@ -25,5 +27,11 @@ public class ProdutoRepository {
         }
 
         return produto;
+    }
+
+    public List<Produto> buscarTodos() {
+        return entityManager
+                .createQuery("SELECT p FROM Produto p", Produto.class)
+                .getResultList();
     }
 }

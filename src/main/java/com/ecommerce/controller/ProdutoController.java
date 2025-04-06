@@ -19,7 +19,7 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     @RequestMapping(value = "/formulario")
-    public String formulario(@ModelAttribute Produto produto, Model model) {
+    public String formulario(Produto produto, Model model) {
         model.addAttribute("produto", produto);
 
         return "produtos/formulario-produto";

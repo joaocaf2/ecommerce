@@ -10,8 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -24,9 +23,9 @@ public class ProdutoRepositoryIntegrationTest {
     @Test
     @DisplayName("Deve definir os atributos do produto corretamente")
     public void deveDefinirOsAtributosDoProdutoCorretamente() {
-        Produto produto = new Produto("Computador",
+        var produto = new Produto("Computador",
                 "Um PC da Dell",
-                new BigDecimal("1500.0"));
+                new BigDecimal("1500.0"),"https://www.exemplo.com.br");
 
         produtoRepository.salvar(produto);
 
@@ -37,4 +36,37 @@ public class ProdutoRepositoryIntegrationTest {
         assertEquals(Long.valueOf("1"), produtoBuscadoNobanco.getId());
     }
 
+    @Test
+    @DisplayName("Deve buscar todos os produtos cadastrados no banco de dados")
+    public void deveBuscarTodosOsProdutosCadastrados() {
+        var bola = new Produto("Bola",
+                "Bola de basquete",
+                new BigDecimal("350.0"),"https://www.exemplo.com.br");
+
+        var patinete = new Produto("Patinete",
+                "Bola de basquete",
+                new BigDecimal("900.0"),"https://www.exemplo.com.br");
+
+        var bicicleta = new Produto("Bicicleta",
+                "Bola de basquete",
+                new BigDecimal("1500.0"),"https://www.exemplo.com.br");
+
+        var frigideira = new Produto("Frigideira",
+                "Bola de basquete",
+                new BigDecimal("75.0"),"https://www.exemplo.com.br");
+
+        produtoRepository.salvar(bola);
+        produtoRepository.salvar(patinete);
+        produtoRepository.salvar(bicicleta);
+        produtoRepository.salvar(frigideira);
+
+        var produtos = produtoRepository.buscarTodos();
+
+        assertTrue(produtos.contains(bola));
+        assertTrue(produtos.contains(patinete));
+        assertTrue(produtos.contains(bicicleta));
+        assertTrue(produtos.contains(frigideira));
+
+        assertEquals(4, produtos.size());
+    }
 }
