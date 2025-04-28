@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/produtos")
@@ -26,8 +28,16 @@ public class ProdutoController {
     }
 
     @PostMapping(value = "/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute Produto produto, BindingResult result) {
-        if (result.hasErrors()) {
+    public String cadastrar(@Valid @ModelAttribute Produto produto, BindingResult bindingResult,
+                            @RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
+
+        if (arquivoImagem == null || arquivoImagem.isEmpty()) {
+            bindingResult.rejectValue("urlImagem", "Pattern", "A imagem é obrigatória.");
+
+            return "produtos/formulario-produto";
+        }
+
+        if (bindingResult.hasErrors()) {
             return "produtos/formulario-produto";
         }
 
