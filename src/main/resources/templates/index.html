@@ -22,6 +22,9 @@
                 <div class="card-body">
                     <a href="#" class="card-title" th:text="${produto.nome}">Nome do Produto</a>
                     <p class="card-text" th:text="'R$ '+ ${produto.preco}">Preço do Produto</p>
+
+                    <img th:src="${produto.urlImagem}" alt="Imagem do produto" width="200px" height="200px"/>
+
                 </div>
             </div>
         </li>
