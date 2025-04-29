@@ -19,6 +19,11 @@ public class ProdutoRepository {
         entityManager.persist(produto);
     }
 
+    @Transactional
+    public void atualizar(Produto produto) {
+        entityManager.merge(produto);
+    }
+
     public Produto buscarPorid(Long id) {
         var produto = entityManager.find(Produto.class, id);
 
