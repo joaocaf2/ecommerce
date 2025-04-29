@@ -2,6 +2,7 @@ package com.ecommerce.controller;
 
 import com.ecommerce.model.Produto;
 import com.ecommerce.repository.ProdutoRepository;
+import com.ecommerce.service.MinioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private MinioService minioService;
+
     @RequestMapping(value = "/formulario")
     public String formulario(Produto produto, Model model) {
         model.addAttribute("produto", produto);
@@ -28,8 +32,7 @@ public class ProdutoController {
     }
 
     @PostMapping(value = "/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute Produto produto, BindingResult bindingResult,
-                            @RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
+    public String cadastrar(@Valid @ModelAttribute Produto produto, BindingResult bindingResult, @RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
 
         if (arquivoImagem == null || arquivoImagem.isEmpty()) {
             bindingResult.rejectValue("urlImagem", "Pattern", "A imagem é obrigatória.");
@@ -42,6 +45,11 @@ public class ProdutoController {
         }
 
         produtoRepository.salvar(produto);
+
+        String urlImagemBase = minioService.realizarUploadImagem(produto.getId(), arquivoImagem);
+        produto.setUrlImagem(urlImagemBase);
+
+        produtoRepository.atualizar(produto);
         return "redirect:/";
     }
 
