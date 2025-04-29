@@ -1,14 +1,15 @@
 package com.ecommerce.service;
 
 import com.ecommerce.exception.ImagemStorageException;
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.http.Method;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 @Service
 public class MinioService {
@@ -19,28 +20,48 @@ public class MinioService {
         this.minioClient = minioClient;
     }
 
-    public void gravarImagem(MultipartFile arquivoImagem) {
-        System.out.println("Gravando imagem no bucket...");
+    public String realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
+        System.out.println(String.format("Realizando upload da imagem %s no minio", arquivoImagem.getOriginalFilename()));
 
         try (InputStream inputStream = arquivoImagem.getInputStream()) {
-            enviarParaMinio(inputStream);
+            return enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
         } catch (IOException e) {
             throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
         }
     }
 
-    private void enviarParaMinio(InputStream inputStream) {
+    public String montarUrlTemporaria(String idObjeto) {
         try {
-            var idObjeto = UUID.randomUUID().toString();
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .bucket("imagens")
+                            .object(idObjeto)
+                            .method(Method.GET)
+                            .expiry(60 * 60 * 24 * 7)
+                            .build()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idObjeto;
+    }
+
+    private String enviarParaMinio(Long produtoId, InputStream inputStream, String nomeArquivoOriginal) {
+        try {
+            var urlImagemBase = "produtos/" + produtoId + "/" + nomeArquivoOriginal;
+
+            System.out.println("ID OBJ: " + urlImagemBase);
 
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket("imagens")
-                            .object(idObjeto)
+                            .object(urlImagemBase)
                             .stream(inputStream, inputStream.available(), -1)
                             .contentType("image/jpeg")
                             .build()
             );
+
+            return urlImagemBase;
         } catch (Exception e) {
             throw new ImagemStorageException("Erro ao enviar imagem para o MinIO", e);
         }
