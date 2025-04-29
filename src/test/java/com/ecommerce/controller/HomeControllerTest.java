@@ -2,6 +2,7 @@ package com.ecommerce.controller;
 
 import com.ecommerce.model.Produto;
 import com.ecommerce.repository.ProdutoRepository;
+import com.ecommerce.service.MinioService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +28,9 @@ public class HomeControllerTest {
 
     @MockitoBean
     private ProdutoRepository produtoRepository;
+
+    @MockitoBean
+    private MinioService minioService;
 
     @Mock
     private Model model;

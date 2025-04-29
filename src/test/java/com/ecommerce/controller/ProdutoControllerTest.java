@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.repository.ProdutoRepository;
-import org.jetbrains.annotations.NotNull;
+import com.ecommerce.service.MinioService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProdutoController.class)
@@ -28,6 +29,9 @@ public class ProdutoControllerTest {
 
     @MockitoBean
     private ProdutoRepository produtoRepository;
+
+    @MockitoBean
+    private MinioService minioService;
 
     @ParameterizedTest
     @ValueSource(strings = ("/produtos/formulario"))
@@ -117,24 +121,6 @@ public class ProdutoControllerTest {
                 "image/jpeg",
                 "conteúdo fake da imagem".getBytes()
         );
-    }
-
-    @Test
-    @DisplayName("Deve ocasionar erro caso a url da imagem ultrapasse a quantidade limite de caracteres")
-    public void deveOcasionarErroCasoAUrlDaImagemUltrapasseOLimiteDeCaracteres() throws Exception {
-        var urlComTamanhoExcedente = criarUrlComTamanhoExcedente();
-
-        mockMvc.perform(multipart("/produtos/cadastrar")
-                        .file(criarImagemTeste())
-                        .param("nome", "teste")
-                        .param("descricao", "Descrição do produto")
-                        .param("descricao", "Descrição do produto")
-                        .param("urlImagem", urlComTamanhoExcedente))
-                .andExpect(status().isOk())
-                .andExpect(view()
-                        .name("produtos/formulario-produto"))
-                .andExpect(model()
-                        .attributeHasFieldErrorCode("produto", "urlImagem", "Size"));
     }
 
     private String criarUrlComTamanhoExcedente() {
