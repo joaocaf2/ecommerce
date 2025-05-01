@@ -43,14 +43,13 @@ public class MinioService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return idObjeto;
     }
 
     private String enviarParaMinio(Long produtoId, InputStream inputStream, String nomeArquivoOriginal) {
         try {
             var urlImagemBase = "produtos/" + produtoId + "/" + nomeArquivoOriginal;
-
-            System.out.println("ID OBJ: " + urlImagemBase);
 
             minioClient.putObject(
                     PutObjectArgs.builder()
