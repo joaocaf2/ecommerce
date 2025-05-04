@@ -20,8 +20,7 @@ public class HomeController {
     public String home(Model model) {
         var produtos = produtoRepository.buscarTodos();
 
-        produtos.forEach(produto ->
-                produto.setUrlImagem(minioService.montarUrlTemporaria(produto.getUrlImagem())));
+        produtos.forEach(produto -> produto.setUrlImagem(minioService.montarUrlTemporaria(produto.getUrlImagem())));
 
         model.addAttribute("produtos", produtos);
         return "index";

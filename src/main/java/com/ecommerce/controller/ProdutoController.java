@@ -33,7 +33,6 @@ public class ProdutoController {
 
     @PostMapping(value = "/cadastrar")
     public String cadastrar(@Valid @ModelAttribute Produto produto, BindingResult bindingResult, @RequestParam("arquivoImagem") MultipartFile arquivoImagem) {
-
         if (arquivoImagem == null || arquivoImagem.isEmpty()) {
             bindingResult.rejectValue("urlImagem", "Pattern", "A imagem é obrigatória.");
 
@@ -46,7 +45,7 @@ public class ProdutoController {
 
         produtoRepository.salvar(produto);
 
-        String urlImagemBase = minioService.realizarUploadImagem(produto.getId(), arquivoImagem);
+        var urlImagemBase = minioService.realizarUploadImagem(produto.getId(), arquivoImagem);
         produto.setUrlImagem(urlImagemBase);
 
         produtoRepository.atualizar(produto);
