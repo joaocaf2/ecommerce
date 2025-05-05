@@ -18,11 +18,14 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model) {
-        var produtos = produtoRepository.buscarTodos();
+        var produtosComUrlImagemTemporaria = produtoRepository
+                .buscarTodos()
+                .stream()
+                .peek(produto -> produto.setUrlImagem(minioService.montarUrlTemporaria(produto.getUrlImagem())))
+                .toList();
 
-        produtos.forEach(produto -> produto.setUrlImagem(minioService.montarUrlTemporaria(produto.getUrlImagem())));
+        model.addAttribute("produtos", produtosComUrlImagemTemporaria);
 
-        model.addAttribute("produtos", produtos);
         return "index";
     }
 
