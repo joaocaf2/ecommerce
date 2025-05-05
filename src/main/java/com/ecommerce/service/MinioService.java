@@ -23,7 +23,7 @@ public class MinioService {
     public String realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
         System.out.printf("Realizando upload da imagem %s no minio%n", arquivoImagem.getOriginalFilename());
 
-        try (InputStream inputStream = arquivoImagem.getInputStream()) {
+        try (var inputStream = arquivoImagem.getInputStream()) {
             return enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
         } catch (IOException e) {
             throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
