@@ -45,7 +45,10 @@ public class ProdutoController {
 
         produtoRepository.salvar(produto);
 
-        var urlImagemBase = minioService.realizarUploadImagem(produto.getId(), arquivoImagem);
+        minioService.realizarUploadImagem(produto.getId(), arquivoImagem);
+
+        var urlImagemBase = "produtos/" + produto.getId() + "/" + arquivoImagem.getOriginalFilename();
+
         produto.setUrlImagem(urlImagemBase);
 
         produtoRepository.atualizar(produto);

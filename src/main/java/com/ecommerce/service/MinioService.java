@@ -20,11 +20,11 @@ public class MinioService {
         this.minioClient = minioClient;
     }
 
-    public String realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
-        System.out.printf("Realizando upload da imagem %s no minio%n", arquivoImagem.getOriginalFilename());
+    public void realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
+        System.out.printf("Realizando upload da imagem %s no minio", arquivoImagem.getOriginalFilename());
 
         try (var inputStream = arquivoImagem.getInputStream()) {
-            return enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
+            enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
         } catch (IOException e) {
             throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
         }
@@ -47,7 +47,7 @@ public class MinioService {
         return idObjeto;
     }
 
-    private String enviarParaMinio(Long produtoId, InputStream inputStream, String nomeArquivoOriginal) {
+    private void enviarParaMinio(Long produtoId, InputStream inputStream, String nomeArquivoOriginal) {
         try {
             var urlImagemBase = "produtos/" + produtoId + "/" + nomeArquivoOriginal;
 
@@ -59,8 +59,6 @@ public class MinioService {
                             .contentType("image/jpeg")
                             .build()
             );
-
-            return urlImagemBase;
         } catch (Exception e) {
             throw new ImagemStorageException("Erro ao enviar imagem para o MinIO", e);
         }
