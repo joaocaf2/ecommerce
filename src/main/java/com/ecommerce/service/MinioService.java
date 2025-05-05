@@ -21,7 +21,7 @@ public class MinioService {
     }
 
     public String realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
-        System.out.println(String.format("Realizando upload da imagem %s no minio", arquivoImagem.getOriginalFilename()));
+        System.out.printf("Realizando upload da imagem %s no minio%n", arquivoImagem.getOriginalFilename());
 
         try (InputStream inputStream = arquivoImagem.getInputStream()) {
             return enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
