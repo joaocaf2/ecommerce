@@ -21,9 +21,7 @@ public class Produto {
     @Size(max = 100, message = "A descrição deve conter no máximo 100 caracteres")
     private String descricao;
 
-    @Size(max = QTDE_MAX_CARACTERES_URL_IMAGEM, message = "A url da imagem do produto deve conter no máximo" + QTDE_MAX_CARACTERES_URL_IMAGEM + " caracteres")
     @Column(columnDefinition = "LONGTEXT")
-    @Pattern(regexp = "^(http|https)://.*", message = "A URL deve começar com http:// ou https://")
     private String urlImagem;
 
     @NotNull(message = "Preço não pode ser nulo")

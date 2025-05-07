@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.repository.ProdutoRepository;
+import com.ecommerce.service.MinioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +13,18 @@ public class HomeController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private MinioService minioService;
+
     @GetMapping
     public String home(Model model) {
-        model.addAttribute("produtos", produtoRepository.buscarTodos());
+        var produtosComUrlImagemTemporaria = produtoRepository
+                .buscarTodos()
+                .stream()
+                .peek(produto -> produto.setUrlImagem(minioService.montarUrlTemporaria(produto.getUrlImagem())))
+                .toList();
+
+        model.addAttribute("produtos", produtosComUrlImagemTemporaria);
 
         return "index";
     }

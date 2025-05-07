@@ -64,7 +64,7 @@
     <h2>Cadastro de Produto</h2>
 
     <div class="form-container">
-        <form th:action="@{/produtos/cadastrar}" th:object="${produto}" method="POST">
+        <form th:action="@{/produtos/cadastrar}" th:object="${produto}" method="POST" enctype="multipart/form-data">
             <div>
                 <label for="nome">Nome do produto:</label>
                 <input type="text" id="nome" th:field="*{nome}">
@@ -78,8 +78,7 @@
             </div>
 
             <div>
-                <label for="urlImagem">Url imagem do produto:</label>
-                <input type="text" id="urlImagem" th:field="*{urlImagem}" required>
+                <input type="file" name="arquivoImagem" id="arquivoImagem" accept="image/*">
                 <div th:if="${#fields.hasErrors('urlImagem')}" th:errors="*{urlImagem}"></div>
             </div>
 
