@@ -8,9 +8,6 @@ import io.minio.http.Method;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 @Service
 public class MinioService {
 
@@ -24,32 +21,7 @@ public class MinioService {
         System.out.printf("Realizando upload da imagem %s no minio", arquivoImagem.getOriginalFilename());
 
         try (var inputStream = arquivoImagem.getInputStream()) {
-            enviarParaMinio(produtoId, inputStream, arquivoImagem.getOriginalFilename());
-        } catch (IOException e) {
-            throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
-        }
-    }
-
-    public String montarUrlTemporaria(String idObjeto) {
-        try {
-            return minioClient.getPresignedObjectUrl(
-                    GetPresignedObjectUrlArgs.builder()
-                            .bucket("imagens")
-                            .object(idObjeto)
-                            .method(Method.GET)
-                            .expiry(60 * 60 * 24 * 7)
-                            .build()
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return idObjeto;
-    }
-
-    private void enviarParaMinio(Long produtoId, InputStream inputStream, String nomeArquivoOriginal) {
-        try {
-            var urlImagemBase = "produtos/" + produtoId + "/" + nomeArquivoOriginal;
+            var urlImagemBase = "produtos/" + produtoId + "/" + arquivoImagem.getOriginalFilename();
 
             minioClient.putObject(
                     PutObjectArgs.builder()
@@ -60,7 +32,27 @@ public class MinioService {
                             .build()
             );
         } catch (Exception e) {
-            throw new ImagemStorageException("Erro ao enviar imagem para o MinIO", e);
+            throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
         }
     }
+
+    public String montarUrlTemporaria(String idObjeto) {
+        try {
+            var seteDiasEmSegundos = 60 * 60 * 24 * 7;
+
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .bucket("imagens")
+                            .object(idObjeto)
+                            .method(Method.GET)
+                            .expiry(seteDiasEmSegundos)
+                            .build()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return idObjeto;
+    }
+
 }
