@@ -32,7 +32,7 @@ public class MinioService {
                             .build()
             );
         } catch (Exception e) {
-            throw new ImagemStorageException("Erro ao obter InputStream da imagem", e);
+            throw new ImagemStorageException("Erro ao realizar upload da imagem para o minio", e);
         }
     }
 
