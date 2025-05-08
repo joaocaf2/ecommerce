@@ -1,11 +1,14 @@
 package com.ecommerce.repository;
 
+import com.ecommerce.config.MinioTestConfig;
 import com.ecommerce.model.Produto;
+import com.ecommerce.service.MinioService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -15,10 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
+@Import(MinioTestConfig.class)
 public class ProdutoRepositoryIntegrationTest {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private MinioService minioService;
 
     @Test
     @DisplayName("Deve definir os atributos do produto corretamente")
