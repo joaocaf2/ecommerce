@@ -1,12 +1,13 @@
 package com.ecommerce.service;
 
 import com.ecommerce.exception.ImagemStorageException;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import io.minio.http.Method;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
 
 @Service
 public class MinioService {
@@ -15,6 +16,19 @@ public class MinioService {
 
     public MinioService(MinioClient minioClient) {
         this.minioClient = minioClient;
+    }
+
+    @PostConstruct
+    public void verificarBucketsNaoCriados() {
+        try {
+            if (!existeBucketCriado("imagens")) {
+                this.minioClient.makeBucket(MakeBucketArgs.builder().bucket("imagens").build());
+            }
+        } catch (Exception e) {
+            System.err.println("Ocorreu um erro ao criar o bucket");
+
+            e.printStackTrace();
+        }
     }
 
     public void realizarUploadImagem(Long produtoId, MultipartFile arquivoImagem) {
@@ -36,6 +50,10 @@ public class MinioService {
         }
     }
 
+    private boolean existeBucketCriado(String nomeBucket) throws Exception {
+        return minioClient.bucketExists(BucketExistsArgs.builder().bucket(nomeBucket).build());
+    }
+
     public String montarUrlTemporaria(String idObjeto) {
         try {
             var seteDiasEmSegundos = 60 * 60 * 24 * 7;
@@ -53,6 +71,19 @@ public class MinioService {
         }
 
         return idObjeto;
+    }
+
+    public InputStream buscarObjetoNoMinio(String nomeBucket, String objetoId) {
+        try {
+            return minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(nomeBucket)
+                            .object(objetoId)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new ImagemStorageException("Erro ao buscar objeto no MinIO", e);
+        }
     }
 
 }
