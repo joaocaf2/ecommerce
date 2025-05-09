@@ -1,7 +1,8 @@
-package com.ecommerce.repository;
+package com.ecommerce.integration.repository;
 
 import com.ecommerce.config.MinioTestConfig;
 import com.ecommerce.model.Produto;
+import com.ecommerce.repository.ProdutoRepository;
 import com.ecommerce.service.MinioService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;

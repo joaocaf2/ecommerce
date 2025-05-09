@@ -1,6 +1,7 @@
-package com.ecommerce.service;
+package com.ecommerce.integration.service;
 
 import com.ecommerce.config.MinioTestConfig;
+import com.ecommerce.service.MinioService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
