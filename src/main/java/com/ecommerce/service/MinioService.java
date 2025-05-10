@@ -19,7 +19,7 @@ public class MinioService {
     }
 
     @PostConstruct
-    public void verificarBucketsNaoCriados() {
+    public void criarBucketsAindaNaoExistentes() {
         try {
             if (!existeBucketCriado("imagens")) {
                 this.minioClient.makeBucket(MakeBucketArgs.builder().bucket("imagens").build());
