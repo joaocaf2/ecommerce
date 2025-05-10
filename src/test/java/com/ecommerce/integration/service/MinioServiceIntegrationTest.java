@@ -38,6 +38,7 @@ public class MinioServiceIntegrationTest {
                     "image/jpeg",
                     inputStream
             );
+
             minioService.realizarUploadImagem(4L, imagemTeste);
         }
 
