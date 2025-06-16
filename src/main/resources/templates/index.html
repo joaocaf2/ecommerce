@@ -18,15 +18,17 @@
 
     <div class="row">
         <li th:each="produto : ${produtos}" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <a th:href="@{/produtos/detalhe/{produto.id}(produto.id=${produto.id})}">
             <div class="card h-100">
                 <div class="card-body">
-                    <a href="#" class="card-title" th:text="${produto.nome}">Nome do Produto</a>
+                    <p class="card-text" th:text="${produto.nome}">Nome do Produto</p>
                     <p class="card-text" th:text="'R$ '+ ${produto.preco}">Preço do Produto</p>
 
                     <img th:src="${produto.urlImagem}" alt="Imagem do produto" width="200px" height="200px"/>
 
                 </div>
             </div>
+            </a>
         </li>
     </div>
 </div>
