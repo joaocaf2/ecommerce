@@ -7,10 +7,6 @@ import java.math.BigDecimal;
 
 @Entity
 public class Produto {
-
-    @Transient
-    private final int QTDE_MAX_CARACTERES_URL_IMAGEM = 2048;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
