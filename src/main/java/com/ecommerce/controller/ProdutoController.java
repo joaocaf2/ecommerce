@@ -53,7 +53,7 @@ public class ProdutoController {
     }
 
     @GetMapping("/detalhe/{id}")
-    public String mostrarDetalhes(@PathVariable Long id, Model model) {
+    public String detalhe(@PathVariable Long id, Model model) {
         var produtoBuscado = produtoRepository.buscarPorid(id);
         model.addAttribute("produto", produtoBuscado);
 
