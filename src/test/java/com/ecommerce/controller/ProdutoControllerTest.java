@@ -1,5 +1,6 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.model.Produto;
 import com.ecommerce.repository.ProdutoRepository;
 import com.ecommerce.service.MinioService;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +15,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -127,6 +133,27 @@ public class ProdutoControllerTest {
         var urlInicialValida = "https://";
 
         return urlInicialValida += "A".repeat(3000);
+    }
+
+    @Test
+    @DisplayName("Deve executar corretamente a url de detalhe do produto")
+    public void deveExecutarCorretamenteAUrlDeDetalheDoProduto() throws Exception {
+        var produtoBuscadoNoBd = new Produto();
+        produtoBuscadoNoBd.setId(4L);
+        produtoBuscadoNoBd.setUrlImagem("imagem-original.jpg");
+
+        when(produtoRepository.buscarPorid(4L)).thenReturn(produtoBuscadoNoBd);
+        when(minioService.montarUrlTemporaria("imagem-original.jpg")).thenReturn("https://url-temporaria");
+
+        var mvcResult = mockMvc.perform(get("/produtos/detalhe/4")).andExpect(status().isOk()).andReturn();
+        var produtoModel = (Produto) Objects
+                .requireNonNull(mvcResult.getModelAndView())
+                .getModel()
+                .get("produto");
+
+        assertEquals(4L, produtoModel.getId());
+        assertEquals("https://url-temporaria", produtoModel.getUrlImagem());
+        assertEquals("produtos/detalhe", mvcResult.getModelAndView().getViewName());
     }
 
 }
