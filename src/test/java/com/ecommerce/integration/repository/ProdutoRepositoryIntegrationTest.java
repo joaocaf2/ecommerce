@@ -37,7 +37,7 @@ public class ProdutoRepositoryIntegrationTest {
 
         produtoRepository.salvar(produto);
 
-        var produtoBuscadoNobanco = produtoRepository.buscarPorid(Long.valueOf("1"));
+        var produtoBuscadoNobanco = produtoRepository.buscarPorId(Long.valueOf("1"));
 
         assertEquals("Produto: ID: 1 | Nome: Computador | Descrição: Um PC da Dell | Preço: 1500.00", produto.toString());
         assertNotNull(produtoBuscadoNobanco);

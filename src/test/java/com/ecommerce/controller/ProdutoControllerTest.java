@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Objects;
@@ -142,7 +141,7 @@ public class ProdutoControllerTest {
         produtoBuscadoNoBd.setId(4L);
         produtoBuscadoNoBd.setUrlImagem("imagem-original.jpg");
 
-        when(produtoRepository.buscarPorid(4L)).thenReturn(produtoBuscadoNoBd);
+        when(produtoRepository.buscarPorId(4L)).thenReturn(produtoBuscadoNoBd);
         when(minioService.montarUrlTemporaria("imagem-original.jpg")).thenReturn("https://url-temporaria");
 
         var mvcResult = mockMvc.perform(get("/produtos/detalhe/4")).andExpect(status().isOk()).andReturn();

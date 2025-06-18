@@ -54,7 +54,7 @@ public class ProdutoController {
 
     @GetMapping("/detalhe/{id}")
     public String detalhe(@PathVariable Long id, Model model) {
-        var produtoBuscado = produtoRepository.buscarPorid(id);
+        var produtoBuscado = produtoRepository.buscarPorId(id);
         model.addAttribute("produto", produtoBuscado);
 
         produtoBuscado.setUrlImagem(minioService.montarUrlTemporaria(produtoBuscado.getUrlImagem()));

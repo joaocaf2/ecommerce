@@ -24,7 +24,7 @@ public class ProdutoRepository {
         entityManager.merge(produto);
     }
 
-    public Produto buscarPorid(Long id) {
+    public Produto buscarPorId(Long id) {
         var produto = entityManager.find(Produto.class, id);
 
         if (produto == null) {
