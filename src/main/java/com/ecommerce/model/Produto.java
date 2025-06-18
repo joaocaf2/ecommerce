@@ -35,6 +35,10 @@ public class Produto {
 
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -77,5 +81,4 @@ public class Produto {
 
         return String.format("Produto: %s | Nome: %s | Descrição: %s | Preço: %.2f", mensagemId, getNome(), getDescricao(), getPreco());
     }
-
 }
